@@ -4,6 +4,7 @@ import torch as th
 import torch.nn as nn
 import torch.nn.functional as F
 
+from . import convert_module_to_f32, convert_module_to_f16
 from .nn import (
     SiLU,
     conv_nd_ph,
@@ -11,7 +12,7 @@ from .nn import (
     avg_pool_nd,
     zero_module,
     normalization,
-    checkpoint,
+    checkpoint, timestep_embedding,
 )
 from .unet import QKVAttention
 
@@ -376,7 +377,110 @@ class UNetModel(nn.Module):
             zero_module(conv_nd_ph(dims, ph_n, model_channels, out_channels, 3, padding=1)),
         )
 
-    # Rest of the methods remain the same as in the previous implementation
-    # (convert_to_fp16, convert_to_fp32, inner_dtype, forward, get_feature_vectors)
+    def convert_to_fp16(self):
+        """
+        Convert the torso of the model to float16.
+        """
+        self.input_blocks.apply(convert_module_to_f16)
+        self.middle_block.apply(convert_module_to_f16)
+        self.output_blocks.apply(convert_module_to_f16)
 
-# The SuperResModel also remains the same as in the previous implementation
+    def convert_to_fp32(self):
+        """
+        Convert the torso of the model to float32.
+        """
+        self.input_blocks.apply(convert_module_to_f32)
+        self.middle_block.apply(convert_module_to_f32)
+        self.output_blocks.apply(convert_module_to_f32)
+
+    @property
+    def inner_dtype(self):
+        """
+        Get the dtype used by the torso of the model.
+        """
+        return next(self.input_blocks.parameters()).dtype
+
+    def forward(self, x, timesteps, y=None):
+        """
+        Apply the model to an input batch.
+
+        :param x: an [N x C x ...] Tensor of inputs.
+        :param timesteps: a 1-D batch of timesteps.
+        :param y: an [N] Tensor of labels, if class-conditional.
+        :return: an [N x C x ...] Tensor of outputs.
+        """
+        assert (y is not None) == (
+                self.num_classes is not None
+        ), "must specify y if and only if the model is class-conditional"
+
+        hs = []
+        emb = self.time_embed(timestep_embedding(timesteps, self.model_channels))
+
+        if self.num_classes is not None:
+            assert y.shape == (x.shape[0],)
+            emb = emb + self.label_emb(y)
+
+        h = x.type(self.inner_dtype)
+        for module in self.input_blocks:
+            h = module(h, emb)
+            hs.append(h)
+        h = self.middle_block(h, emb)
+        for module in self.output_blocks:
+            cat_in = th.cat([h, hs.pop()], dim=1)
+            h = module(cat_in, emb)
+        h = h.type(x.dtype)
+        return self.out(h)
+
+    def get_feature_vectors(self, x, timesteps, y=None):
+        """
+        Apply the model and return all of the intermediate tensors.
+
+        :param x: an [N x C x ...] Tensor of inputs.
+        :param timesteps: a 1-D batch of timesteps.
+        :param y: an [N] Tensor of labels, if class-conditional.
+        :return: a dict with the following keys:
+                 - 'down': a list of hidden state tensors from downsampling.
+                 - 'middle': the tensor of the output of the lowest-resolution
+                             block in the model.
+                 - 'up': a list of hidden state tensors from upsampling.
+        """
+        hs = []
+        emb = self.time_embed(timestep_embedding(timesteps, self.model_channels))
+        if self.num_classes is not None:
+            assert y.shape == (x.shape[0],)
+            emb = emb + self.label_emb(y)
+        result = dict(down=[], up=[])
+        h = x.type(self.inner_dtype)
+        for module in self.input_blocks:
+            h = module(h, emb)
+            hs.append(h)
+            result["down"].append(h.type(x.dtype))
+        h = self.middle_block(h, emb)
+        result["middle"] = h.type(x.dtype)
+        for module in self.output_blocks:
+            cat_in = th.cat([h, hs.pop()], dim=1)
+            h = module(cat_in, emb)
+            result["up"].append(h.type(x.dtype))
+        return result
+
+class SuperResModel(UNetModel):
+    """
+    A UNetModel that performs super-resolution.
+
+    Expects an extra kwarg `low_res` to condition on a low-resolution image.
+    """
+
+    def __init__(self, in_channels, *args, **kwargs):
+        super().__init__(in_channels * 2, *args, **kwargs)
+
+    def forward(self, x, timesteps, low_res=None, **kwargs):
+        _, _, new_height, new_width = x.shape
+        upsampled = F.interpolate(low_res, (new_height, new_width), mode="bilinear")
+        x = th.cat([x, upsampled], dim=1)
+        return super().forward(x, timesteps, **kwargs)
+
+    def get_feature_vectors(self, x, timesteps, low_res=None, **kwargs):
+        _, new_height, new_width, _ = x.shape
+        upsampled = F.interpolate(low_res, (new_height, new_width), mode="bilinear")
+        x = th.cat([x, upsampled], dim=1)
+        return super().get_feature_vectors(x, timesteps, **kwargs)

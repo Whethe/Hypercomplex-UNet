@@ -70,7 +70,7 @@ class PHMLinear(nn.Module):
 class PHConv2D(Module):
 
     def __init__(self, n, in_features, out_features, kernel_size, padding=0, stride=1, cuda=True):
-        super(PHConv2d, self).__init__()
+        super(PHConv2D, self).__init__()
         self.n = n
         self.in_features = in_features
         self.out_features = out_features

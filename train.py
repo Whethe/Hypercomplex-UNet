@@ -297,7 +297,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--config",
         type=str, required=False,
-        default="configs/train_unet.yaml",
+        default="configs/train_hyperunet.yaml",
         help="config file path"
         )
 

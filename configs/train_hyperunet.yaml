@@ -1,30 +1,25 @@
-config_name: hyperUnet_mri
-description: "hyperUnet for MRI Reconstruction"
+config_name: hyper-Unet_mri
+description: "hyper-Unet for MRI Reconstruction"
 
 device_params:
   visible_devices: "1, 2, 3" # [0,1,2], [0]
   device_id: 1
 
 model_params:
-  ph_n: 2
+  T: 1000
   in_channels: 2
-  model_channels: 64
   out_channels: 2
+  ch: 64
+  ch_mult: [1, 2, 2, 2]
+  attn: []
   num_res_blocks: 2
-  attention_resolutions: []
-  dropout: 0.1
-  channel_mult: [1, 2, 2, 2]
-  conv_resample: True
-  dims: 2
-  num_heads: 1
-  num_heads_upsample: 1
-  use_scale_shift_norm: True
-  use_checkpoint: True
+  dropout: 0.0
+  ph_n: 2
 
 dataset_params:
   dataset_name: fMRI_dataset
-#  dataset_path: '/media/NAS06/haosen/knee_path/multicoil_dataset/knee_dataset_x8.h5'
-  dataset_path: 'datasets/fastmri/knee_dataset.h5'
+  dataset_path: '/media/NAS06/haosen/knee_path/multicoil_dataset/knee_dataset_x8.h5'
+#  dataset_path: 'datasets/fastmri/knee_dataset.h5'
   mask: "fMRI_Reg_AF8_CF0.04_PE320"
   sigma: 0.01
   val_data: True
