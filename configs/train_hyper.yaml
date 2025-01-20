@@ -6,6 +6,7 @@ device_params:
   device_id: 1
 
 model_params:
+  ph_n: 2
   in_channels: 2
   model_channels: 64
   out_channels: 2

@@ -8,6 +8,8 @@ import math
 import torch as th
 import torch.nn as nn
 
+from models.PHLayers import PHConv2D, PHConv1D, PHConv3D
+
 
 # PyTorch 1.7 has SiLU, but we support PyTorch 1.5.
 class SiLU(nn.Module):
@@ -31,6 +33,24 @@ def conv_nd(dims, *args, **kwargs):
     elif dims == 3:
         return nn.Conv3d(*args, **kwargs)
     raise ValueError(f"unsupported dimensions: {dims}")
+
+def conv_nd_ph(dims, ph_n, in_channels, out_channels, kernel_size, stride=1, padding=0):
+    """
+    A wrapper function to use PHConv Layers for 1D, 2D, 3D convolutions while maintaining compatibility
+    with other dimension convolutions.
+    """
+    if dims == 2:
+        # For 2D, use PHConv2d with a fixed n value
+        return PHConv2D(ph_n, in_channels, out_channels, kernel_size,
+                        padding=padding, stride=stride)
+    elif dims == 1:
+        return PHConv1D(ph_n, in_channels, out_channels, kernel_size,
+                         stride=stride, padding=padding)
+    elif dims == 3:
+        return PHConv3D(ph_n, in_channels, out_channels, kernel_size,
+                         stride=stride, padding=padding)
+    else:
+        raise ValueError(f"Unsupported number of dimensions: {dims}")
 
 
 def linear(*args, **kwargs):
