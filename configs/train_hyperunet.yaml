@@ -27,7 +27,7 @@ dataset_params:
 
 train_params:
   epochs: 50
-  model_name: hyperUnet
+  model_name: hyperUnet2
 
   restore_weights: False #False, best, inter, final
   restore_path:

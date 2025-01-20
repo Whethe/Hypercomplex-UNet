@@ -63,8 +63,11 @@ def get_model(model_name, model_params, device):
         from models.unet import UNetModel
         model = UNetModel(**model_params).float()
     elif model_name == 'hyperUnet':
-            from models.PHCUnet import UNetModel
-            model = UNetModel(**model_params).float()
+        from models.PHCUnet import UNetModel
+        model = UNetModel(**model_params).float()
+    elif model_name == 'hyperUnet2':
+        from models.hyperUnet import PHUNet
+        model = PHUNet(**model_params).float()
     else:
         raise NotImplementedError
 
