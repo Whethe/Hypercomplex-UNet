@@ -1,0 +1,110 @@
+config path: configs/train_unet.yaml
+workspace: ./workspace/unet_mri_19Jan0559pm
+description: UNet for MRI Reconstruction
+
+
+train start: 2025-01-19 17:59:12
+-----------------------
+epoch 0/50 train PSNR: 20.49	loss: 0.0137
+epoch 0/50 val PSNR: 20.05	loss: 0.0108
+epoch 1/50 train PSNR: 21.35	loss: 0.0100
+epoch 1/50 val PSNR: 19.27	loss: 0.0136
+epoch 2/50 train PSNR: 22.50	loss: 0.0067
+epoch 2/50 val PSNR: 22.45	loss: 0.0065
+epoch 3/50 train PSNR: 22.56	loss: 0.0067
+epoch 3/50 val PSNR: 22.00	loss: 0.0070
+epoch 4/50 train PSNR: 23.12	loss: 0.0057
+epoch 4/50 val PSNR: 22.81	loss: 0.0059
+epoch 5/50 train PSNR: 23.64	loss: 0.0050
+epoch 5/50 val PSNR: 22.98	loss: 0.0058
+epoch 6/50 train PSNR: 23.08	loss: 0.0067
+epoch 6/50 val PSNR: 20.70	loss: 0.0091
+epoch 7/50 train PSNR: 23.15	loss: 0.0084
+epoch 7/50 val PSNR: 20.47	loss: 0.0115
+epoch 8/50 train PSNR: 22.02	loss: 0.0080
+epoch 8/50 val PSNR: 22.45	loss: 0.0063
+epoch 9/50 train PSNR: 18.69	loss: 0.0206
+epoch 9/50 val PSNR: 15.65	loss: 0.0294
+epoch 10/50 train PSNR: 19.68	loss: 0.0173
+epoch 10/50 val PSNR: 22.51	loss: 0.0068
+epoch 11/50 train PSNR: 22.86	loss: 0.0060
+epoch 11/50 val PSNR: 22.83	loss: 0.0059
+epoch 12/50 train PSNR: 21.33	loss: 0.0119
+epoch 12/50 val PSNR: 21.59	loss: 0.0093
+epoch 13/50 train PSNR: 21.48	loss: 0.0093
+epoch 13/50 val PSNR: 22.29	loss: 0.0069
+epoch 14/50 train PSNR: 21.83	loss: 0.0091
+epoch 14/50 val PSNR: 22.73	loss: 0.0060
+epoch 15/50 train PSNR: 23.40	loss: 0.0052
+epoch 15/50 val PSNR: 22.80	loss: 0.0059
+epoch 16/50 train PSNR: 23.86	loss: 0.0046
+epoch 16/50 val PSNR: 22.79	loss: 0.0057
+epoch 17/50 train PSNR: 24.33	loss: 0.0042
+epoch 17/50 val PSNR: 23.46	loss: 0.0052
+epoch 18/50 train PSNR: 24.64	loss: 0.0039
+epoch 18/50 val PSNR: 23.67	loss: 0.0049
+epoch 19/50 train PSNR: 23.86	loss: 0.0055
+epoch 19/50 val PSNR: 22.68	loss: 0.0059
+epoch 20/50 train PSNR: 23.24	loss: 0.0058
+epoch 20/50 val PSNR: 23.43	loss: 0.0052
+epoch 21/50 train PSNR: 24.49	loss: 0.0041
+epoch 21/50 val PSNR: 23.40	loss: 0.0052
+epoch 22/50 train PSNR: 24.79	loss: 0.0038
+epoch 22/50 val PSNR: 23.65	loss: 0.0049
+epoch 23/50 train PSNR: 24.86	loss: 0.0039
+epoch 23/50 val PSNR: 23.49	loss: 0.0051
+epoch 24/50 train PSNR: 24.83	loss: 0.0038
+epoch 24/50 val PSNR: 23.57	loss: 0.0052
+epoch 25/50 train PSNR: 24.97	loss: 0.0037
+epoch 25/50 val PSNR: 24.01	loss: 0.0046
+epoch 26/50 train PSNR: 25.12	loss: 0.0036
+epoch 26/50 val PSNR: 24.09	loss: 0.0046
+epoch 27/50 train PSNR: 25.33	loss: 0.0034
+epoch 27/50 val PSNR: 24.16	loss: 0.0046
+epoch 28/50 train PSNR: 25.22	loss: 0.0036
+epoch 28/50 val PSNR: 24.14	loss: 0.0045
+epoch 29/50 train PSNR: 25.48	loss: 0.0033
+epoch 29/50 val PSNR: 24.28	loss: 0.0045
+epoch 30/50 train PSNR: 25.37	loss: 0.0034
+epoch 30/50 val PSNR: 24.06	loss: 0.0046
+epoch 31/50 train PSNR: 25.50	loss: 0.0033
+epoch 31/50 val PSNR: 24.18	loss: 0.0045
+epoch 32/50 train PSNR: 25.60	loss: 0.0033
+epoch 32/50 val PSNR: 24.21	loss: 0.0045
+epoch 33/50 train PSNR: 25.56	loss: 0.0033
+epoch 33/50 val PSNR: 24.29	loss: 0.0044
+epoch 34/50 train PSNR: 25.59	loss: 0.0033
+epoch 34/50 val PSNR: 24.15	loss: 0.0046
+epoch 35/50 train PSNR: 25.60	loss: 0.0033
+epoch 35/50 val PSNR: 24.29	loss: 0.0045
+epoch 36/50 train PSNR: 25.67	loss: 0.0032
+epoch 36/50 val PSNR: 24.38	loss: 0.0043
+epoch 37/50 train PSNR: 25.73	loss: 0.0032
+epoch 37/50 val PSNR: 24.39	loss: 0.0043
+epoch 38/50 train PSNR: 25.74	loss: 0.0032
+epoch 38/50 val PSNR: 24.28	loss: 0.0044
+epoch 39/50 train PSNR: 25.80	loss: 0.0031
+epoch 39/50 val PSNR: 24.38	loss: 0.0043
+epoch 40/50 train PSNR: 25.77	loss: 0.0031
+epoch 40/50 val PSNR: 24.47	loss: 0.0043
+epoch 41/50 train PSNR: 25.86	loss: 0.0031
+epoch 41/50 val PSNR: 24.27	loss: 0.0044
+epoch 42/50 train PSNR: 25.81	loss: 0.0031
+epoch 42/50 val PSNR: 24.54	loss: 0.0042
+epoch 43/50 train PSNR: 25.83	loss: 0.0031
+epoch 43/50 val PSNR: 24.48	loss: 0.0043
+epoch 44/50 train PSNR: 25.91	loss: 0.0031
+epoch 44/50 val PSNR: 24.56	loss: 0.0042
+epoch 45/50 train PSNR: 25.88	loss: 0.0031
+epoch 45/50 val PSNR: 24.35	loss: 0.0044
+epoch 46/50 train PSNR: 25.90	loss: 0.0031
+epoch 46/50 val PSNR: 24.56	loss: 0.0042
+epoch 47/50 train PSNR: 25.92	loss: 0.0031
+epoch 47/50 val PSNR: 24.52	loss: 0.0042
+epoch 48/50 train PSNR: 25.93	loss: 0.0031
+epoch 48/50 val PSNR: 24.56	loss: 0.0042
+epoch 49/50 train PSNR: 25.84	loss: 0.0031
+epoch 49/50 val PSNR: 24.38	loss: 0.0043
+-----------------------
+total train time: 179.54 min
+best score: 24.5595

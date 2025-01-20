@@ -1,0 +1,39 @@
+config_name: unet_mri_19Jan1117pm
+description: "UNet for MRI Reconstruction"
+
+device_params:
+  visible_devices: "0" # [0,1,2], [0]
+  device_id: 0
+
+model_params:
+  in_channels: 2
+  model_channels: 64
+  out_channels: 2
+  num_res_blocks: 2
+  attention_resolutions: []
+  dropout: 0.1
+  channel_mult: [1, 2, 2, 2]
+  conv_resample: True
+  dims: 2
+  num_heads: 1
+  num_heads_upsample: 1
+  use_scale_shift_norm: True
+  use_checkpoint: True
+
+dataset_params:
+  dataset_name: fMRI_dataset
+#  dataset_path: '/media/NAS06/haosen/knee_path/multicoil_dataset/knee_dataset_x8.h5'
+  dataset_path: './datasets/fastmri/test_knee_data.h5'
+  mask: "fMRI_Reg_AF8_CF0.04_PE320"
+  sigma: 0.01
+  val_data: True
+  batch_size: 8
+
+test_params:
+  model_name: unet
+
+  restore_weights: final #False, best, inter, final
+  restore_path:
+
+  loss_name: MSE
+  score_names: ['PSNR', 'SSIM']
